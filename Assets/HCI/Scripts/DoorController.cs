@@ -24,11 +24,11 @@ public class DoorController : MonoBehaviour
     {
         if (isOpening)
         {
-            door.transform.rotation = Quaternion.Euler(new Vector3(0f, 0f, 0f));
+            door.transform.rotation = Quaternion.Euler(new Vector3(-90f, 90f, 0f));
         }
         else
         {
-            door.transform.rotation = Quaternion.Euler(new Vector3(0f, -90f, 0f));
+            door.transform.rotation = Quaternion.Euler(new Vector3(-90f, 180f, 0f));
         }
         isOpening = !isOpening;
     }
