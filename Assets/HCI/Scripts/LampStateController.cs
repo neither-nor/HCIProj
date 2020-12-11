@@ -7,9 +7,14 @@ public class LampStateController : MonoBehaviour
 {
     // Start is called before the first frame update
     public GameObject lightItem;
+    public GameObject textObj = null;
+    public string label = "";
     void Start()
     {
-        
+        if (textObj != null)
+        {
+            textObj.GetComponent<TextMesh>().text = label;
+        }
     }
 
     // Update is called once per frame
