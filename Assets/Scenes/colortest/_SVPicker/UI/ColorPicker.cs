@@ -5,7 +5,7 @@ public class ColorPicker : MonoBehaviour
 {
 
 	private float _hue = 0;
-	private float _saturation = 0;
+	private float _saturation = 0.5f;
 	private float _brightness = 0;
 
 	private float _red = 1;
@@ -200,7 +200,8 @@ public class ColorPicker : MonoBehaviour
 
 	private void HSVChanged()
 	{
-		Color color = HSVUtil.ConvertHsvToRgb(_hue * 360, _saturation, _brightness, _alpha);
+		Debug.Log("HSV change");
+		Color color = HSVUtil.ConvertHsvToRgb(_hue * 360, 0.5, 1.0, _alpha);
 
 		_red = color.r;
 		_green = color.g;
