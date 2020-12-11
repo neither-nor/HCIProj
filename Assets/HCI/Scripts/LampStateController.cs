@@ -9,6 +9,7 @@ public class LampStateController : MonoBehaviour
     public GameObject lightItem;
     public GameObject textObj = null;
     public string label = "";
+    public GameObject lightColorPicker;
     void Start()
     {
         if (textObj != null)
@@ -25,5 +26,6 @@ public class LampStateController : MonoBehaviour
     public void OnButtonClick()
     {
         lightItem.GetComponent<Light>().enabled = !lightItem.GetComponent<Light>().enabled;
+        lightColorPicker.GetComponent<updateLightColor>().light = lightItem.GetComponent<Light>();
     }
 }

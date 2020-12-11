@@ -1316,6 +1316,11 @@ PrefabInstance:
       propertyPath: lightItem
       value: 
       objectReference: {fileID: 659448794}
+    - target: {fileID: 3485408336834524238, guid: e793298235f8a48418036bd1a6d21e6f,
+        type: 3}
+      propertyPath: lightColorPicker
+      value: 
+      objectReference: {fileID: 229138073}
     - target: {fileID: 3497120088882343148, guid: e793298235f8a48418036bd1a6d21e6f,
         type: 3}
       propertyPath: lightItem
@@ -1498,6 +1503,11 @@ PrefabInstance:
       propertyPath: lightItem
       value: 
       objectReference: {fileID: 1875765875}
+    - target: {fileID: 3485408336834524238, guid: e793298235f8a48418036bd1a6d21e6f,
+        type: 3}
+      propertyPath: lightColorPicker
+      value: 
+      objectReference: {fileID: 229138073}
     - target: {fileID: 3497120088882343148, guid: e793298235f8a48418036bd1a6d21e6f,
         type: 3}
       propertyPath: lightItem
@@ -2547,6 +2557,11 @@ PrefabInstance:
       propertyPath: lightItem
       value: 
       objectReference: {fileID: 1410036737}
+    - target: {fileID: 3485408336834524238, guid: e793298235f8a48418036bd1a6d21e6f,
+        type: 3}
+      propertyPath: lightColorPicker
+      value: 
+      objectReference: {fileID: 229138073}
     - target: {fileID: 3497120088882343148, guid: e793298235f8a48418036bd1a6d21e6f,
         type: 3}
       propertyPath: lightItem
@@ -3354,6 +3369,11 @@ PrefabInstance:
       propertyPath: lightItem
       value: 
       objectReference: {fileID: 336254806}
+    - target: {fileID: 3485408336834524238, guid: e793298235f8a48418036bd1a6d21e6f,
+        type: 3}
+      propertyPath: lightColorPicker
+      value: 
+      objectReference: {fileID: 229138073}
     - target: {fileID: 3497120088882343148, guid: e793298235f8a48418036bd1a6d21e6f,
         type: 3}
       propertyPath: lightItem
@@ -4910,6 +4930,11 @@ PrefabInstance:
       propertyPath: lightItem
       value: 
       objectReference: {fileID: 1577749883}
+    - target: {fileID: 3485408336834524238, guid: e793298235f8a48418036bd1a6d21e6f,
+        type: 3}
+      propertyPath: lightColorPicker
+      value: 
+      objectReference: {fileID: 229138073}
     - target: {fileID: 3497120088882343148, guid: e793298235f8a48418036bd1a6d21e6f,
         type: 3}
       propertyPath: lightItem
