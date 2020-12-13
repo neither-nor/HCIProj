@@ -12,6 +12,7 @@ public class WaveTable : MonoBehaviour
     //public GameObject DoorControllerOnTable=GameObject.Find("DoorControllerOnTables") as GameObject;    
     public GameObject DoorControllerOnTable;
     public GameObject TestButtonOnTable;
+
     public int k=0,i=-1,j=-1;     
     public double kx,ky,kz,cx,cy,cz;                         
     public int ansxL,ansxR,anszL,anszR;
