@@ -7,6 +7,11 @@ public class WaveTable : MonoBehaviour
     // Start is called before the first frame update
     bool[,] a=new bool[45,100];
     GameObject[,] smallcube=new GameObject[45,100];   
+    
+    public GameObject button;
+
+    
+
     public int k=0,i=-1,j=-1;     
     public double kx,ky,kz,cx,cy,cz;                         
     public int ansxL,ansxR,anszL,anszR;
