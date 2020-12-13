@@ -1,12 +1,17 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEditor;
 
 public class WaveTable : MonoBehaviour
 {
     // Start is called before the first frame update
     bool[,] a=new bool[45,100];
     GameObject[,] smallcube=new GameObject[45,100];   
+    GameObject[,] upbutton=new GameObject[45,100];   
+    //public GameObject DoorControllerOnTable=GameObject.Find("DoorControllerOnTables") as GameObject;    
+    public GameObject DoorControllerOnTable;
+    public GameObject TestButtonOnTable;
     public int k=0,i=-1,j=-1;     
     public double kx,ky,kz,cx,cy,cz;                         
     public int ansxL,ansxR,anszL,anszR;
@@ -41,8 +46,8 @@ public class WaveTable : MonoBehaviour
         ky=(Y1-Y2)/(y1-y2);
         cy=Y2-y2*(Y1-Y2)/(y1-y2);	
     }
-    void make(string str){	
-        var size = GameObject.Find(str).transform.GetComponent<Renderer>().bounds.size;
+    void make(string str,int k=0,string str2=null){	
+        var size = GameObject.Find(str).transform.GetComponent<Renderer>().bounds.size;                
         var loc=GameObject.Find(str).transform.position;  
         ansxL=(int)((loc.x-size.x/2)*kx+cx);
         ansxR=(int)((loc.x+size.x/2)*kx+cx);
@@ -52,97 +57,44 @@ public class WaveTable : MonoBehaviour
         for (int i=ansxL;i<=ansxR;i++)
         for (int j=anszL;j<=anszR;j++){
             smallcube[i,j].transform.Translate(Vector3.up*(float)ansy,Space.World);
+            if (k==1){
+                upbutton[i,j]=PrefabUtility.InstantiatePrefab(DoorControllerOnTable) as GameObject;                
+                upbutton[i,j].transform.position=new UnityEngine.Vector3((i-24)*(float)0.015+2,(float)0.701,(float)5.5+(j-49)*(float)0.015);     
+                upbutton[i,j].transform.GetComponent<DoorController>().door=GameObject.Find(str2);
+                upbutton[i,j].SetActive(true);             
+                upbutton[i,j].transform.Translate(Vector3.up*(float)ansy,Space.World);
+            }            
+            if (k==2){
+                upbutton[i,j]=PrefabUtility.InstantiatePrefab(TestButtonOnTable) as GameObject;                
+                upbutton[i,j].transform.position=new UnityEngine.Vector3((i-24)*(float)0.015+2,(float)0.701,(float)5.5+(j-49)*(float)0.015);     
+                upbutton[i,j].transform.GetComponent<LampStateController>().lightItem=GameObject.Find(str2);
+                upbutton[i,j].SetActive(true);             
+                upbutton[i,j].transform.Translate(Vector3.up*(float)ansy,Space.World);
+            }
         }
     }    
     void Start()
-    {             
-        init();      
+    {                     
+        init();               
+        //GameObject.Find("DoorController/mybutton/ButtonContent/FrontPlate").GetComponent<Transform>().localScale=new UnityEngine.Vector3((float)0.015,(float)0.015,(float)0);                                         
         for (int i=0;i<45;i++)
             for (int j=0;j<100;j++){                
                 smallcube[i,j]=GameObject.CreatePrimitive(PrimitiveType.Cube);
                 smallcube[i,j].transform.localScale=new UnityEngine.Vector3((float)0.015,(float)0.7,(float)0.015);
-                smallcube[i,j].transform.position=new UnityEngine.Vector3((i-24)*(float)0.015+2,(float)0.35,(float)5.5+(j-49)*(float)0.015);
+                smallcube[i,j].transform.position=new UnityEngine.Vector3((i-24)*(float)0.015+2,(float)0.35,(float)5.5+(j-49)*(float)0.015);                     
                 smallcube[i,j].GetComponent<MeshRenderer>().material.color =new Color((float)i/44,(float)j/99,0,1);
                 smallcube[i,j].SetActive(true);  
-                a[i,j]=false;              
             }               
         make("bed_1/base");
         make("bed_1 (1)/base");
         make("cabinet_1/base");
-        make("kitchen_chair_1/seat");
-    }
-
-    public string gett(){
-        return "测试结果："+k.ToString()+" "+i.ToString()+" "+j.ToString();
-    }
-    int geti(){
-        return i;
-    }
-
-    // Update is called once per frame
-    void change(int i,int j){        
-        a[i,j]=!a[i,j];
-        if (a[i,j]){
-            smallcube[i,j].transform.Translate(Vector3.up*1f,Space.World);
-        }else{
-            smallcube[i,j].transform.Translate(Vector3.down*1f,Space.World);
-        }
+        make("kitchen_chair_1/seat");        
+        make("Door1/DoorItem/03_low",1,"Door1/DoorItem/01_low");
+        make("Door1 (1)/DoorItem/03_low",1,"Door1 (1)/DoorItem/01_low");
+        make("Lamp1/torchere_1/plafond",2,"Lamp1/LightItem");
     }
     void Update()
     {                           
         //this.transform.Rotate(Vector3.up*1,Space.World);                
-        if (Input.GetKeyDown("0")){
-            k+=1;
-            if (k==1){                
-                i=0;
-            }else{                
-                j=0;
-                change(i,j);
-                k=0;
-            }
-        }
-        if (Input.GetKeyDown("1")){
-            k+=1;
-            if (k==1){
-                i=1;
-            }else{
-                j=1;
-                change(i,j);
-                k=0;
-            }
-        }
-        if (Input.GetKeyDown("2")){
-            k+=1;
-            if (k==1){
-                i=2;
-            }else{
-                j=2;
-                change(i,j);
-                k=0;
-            }
-        }
-        if (Input.GetKeyDown("3")){
-            k+=1;
-            if (k==1){
-                i=3;
-            }else{
-                j=3;
-                change(i,j);
-                k=0;
-            }
-        }
-        if (Input.GetKeyDown("4")){
-            k+=1;
-            if (k==1){
-                i=4;
-            }else{
-                j=4;
-                change(i,j);
-                k=0;
-            }
-        }    
-        if (Input.GetKeyDown("escape")){
-            if (k==1)k-=1;
-        }
     }
 }

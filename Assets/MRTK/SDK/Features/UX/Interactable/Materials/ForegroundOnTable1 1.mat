@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Foreground
+  m_Name: ForegroundOnTable1 1
   m_Shader: {fileID: 46, guid: 0000000000000000f000000000000000, type: 0}
   m_ShaderKeywords: _DIRECTIONAL_LIGHT _DISABLE_ALBEDO_MAP _EMISSION _FORCEPERPIXEL_ON
     _HOVER_LIGHT _SHADE4_ON _SPECULARHIGHLIGHTS_ON _SPECULAR_HIGHLIGHTS _USEAMBIENT_ON
@@ -159,8 +159,8 @@ Material:
     - _ZWrite: 1
     m_Colors:
     - _ClippingBorderColor: {r: 1, g: 0.2, b: 0, a: 1}
-    - _Color: {r: 0.031372547, g: 0.7647059, b: 0.744608, a: 1}
-    - _EmissionColor: {r: 0.20754717, g: 0.3517305, b: 0.8301887, a: 1}
+    - _Color: {r: 1, g: 0.015686274, b: 0.043736476, a: 1}
+    - _EmissionColor: {r: 0.8784314, g: 0.007843117, b: 0.07058824, a: 1}
     - _EmissiveColor: {r: 0, g: 0, b: 0, a: 1}
     - _EnvironmentColorX: {r: 1, g: 0, b: 0, a: 1}
     - _EnvironmentColorY: {r: 0, g: 1, b: 0, a: 1}
