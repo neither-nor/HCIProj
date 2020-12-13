@@ -12,9 +12,13 @@ public class WaveTable : MonoBehaviour
     //public GameObject DoorControllerOnTable=GameObject.Find("DoorControllerOnTables") as GameObject;    
     public GameObject DoorControllerOnTable;
     public GameObject TestButtonOnTable;
+    public GameObject HSVPicker;
+
+    GameObject locHSVPicker;
+    int hsvxL = 1, hsvxR = 5, hsvzL = 24, hsvzR = 29;
 
     public int k=0,i=-1,j=-1;     
-    public double kx,ky,kz,cx,cy,cz;                         
+    public double kx,ky,kz,cx,cy,cz;
     public int ansxL,ansxR,anszL,anszR;
 	public double ansy;
     void init() {
@@ -46,6 +50,10 @@ public class WaveTable : MonoBehaviour
         cz=Z2-z2*(Z1-Z2)/(z1-z2);
         ky=(Y1-Y2)/(y1-y2);
         cy=Y2-y2*(Y1-Y2)/(y1-y2);	
+
+        locHSVPicker = GameObject.Instantiate(HSVPicker);
+        locHSVPicker.transform.localScale = new Vector3(0.0031465f, 0.00357465f, 0.00157465f);
+        locHSVPicker.transform.localPosition = new Vector3(1.878f, 0.88f, 5.107f);
     }
     void make(string str,int k=0,string str2=null){	
         var size = GameObject.Find(str).transform.GetComponent<Renderer>().bounds.size;                
@@ -73,7 +81,19 @@ public class WaveTable : MonoBehaviour
                 upbutton[i,j].transform.Translate(Vector3.up*(float)ansy,Space.World);
             }
         }
+        if(k == 2)
+        {
+           Debug.Log("light pos : xL : " + ansxL + " xR : " + ansxR + " ");
+           Debug.Log("light pos : zL : " + anszL + " zR : " + anszR + " ");
+
+        }
     }    
+
+    public void UpdateLight(int xL, int xR, int zL, int zR)
+    {
+        
+    }
+
     void Start()
     {                     
         init();               
