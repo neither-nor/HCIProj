@@ -5920,7 +5920,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae2d93024d4a2fc42863af379113a56f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  button: {fileID: 0}
+  sidenum: 0
+  DoorControllerOnTable: {fileID: 1531640008835206228, guid: ce2409ae8cb714647a77fcd3a056a6fd,
+    type: 3}
+  TestButtonOnTable: {fileID: 1531640008835206228, guid: 36a651f42ad848e4d8ee2c673f091bd2,
+    type: 3}
   k: 0
   i: -1
   j: -1
