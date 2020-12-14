@@ -14,11 +14,24 @@ public class WaveTable : MonoBehaviour
     //public GameObject DoorControllerOnTable=GameObject.Find("DoorControllerOnTables") as GameObject;    
     public GameObject DoorControllerOnTable;
     public GameObject TestButtonOnTable;
+    public GameObject HSVPicker;
+
+    public GameObject locHSVPicker;
+    int hsvxL = 1, hsvxR = 5, hsvzL = 24, hsvzR = 29;
+    string currLabel;
+    float currOffset = 0f;
 
     public int k=0,i=-1,j=-1;     
-    public double kx,ky,kz,cx,cy,cz;                         
+    public double kx,ky,kz,cx,cy,cz;
     public int ansxL,ansxR,anszL,anszR;
 	public double ansy;
+    public struct LightStatus
+    {
+        public bool on;
+        public float offset;
+    }
+    Dictionary<string, LightStatus> dict = new Dictionary<string, LightStatus>();
+
     void init() {
         double roomx,roomy,roomz;
         double roomxsc,roomysc,roomzsc;    
@@ -48,6 +61,12 @@ public class WaveTable : MonoBehaviour
         cz=Z2-z2*(Z1-Z2)/(z1-z2);
         ky=(Y1-Y2)/(y1-y2);
         cy=Y2-y2*(Y1-Y2)/(y1-y2);	
+
+        locHSVPicker = GameObject.Instantiate(HSVPicker);
+        locHSVPicker.transform.localScale = new Vector3(0.0031465f, 0.00357465f, 0.00157465f);
+        locHSVPicker.transform.localPosition = new Vector3(1.878f + 0.025f - 0.011f, 0.88f - 0.035f, 5.107f);
+        locHSVPicker.GetComponent<HSVTopSelecter>().waveTable = gameObject;
+        currLabel = "";
     }
     void make(string str,int k=0,string str2=null,int k2=0){        	
         var size=new Vector3(0.5f,0,0.5f);
@@ -63,8 +82,15 @@ public class WaveTable : MonoBehaviour
             Debug.Log(ansy);
         for (int i=ansxL;i<=ansxR;i++)
             for (int j=anszL;j<=anszR;j++){                                
-                if (smallcube[i,j].transform.position.y<0.35+ansy)
-                    smallcube[i,j].transform.Translate(Vector3.up*(float)(0.35+ansy-smallcube[i,j].transform.position.y),Space.World);                
+                if(k != 2)
+                {
+                    if (smallcube[i,j].transform.position.y<0.35+ansy)
+                        smallcube[i,j].transform.Translate(Vector3.up*(float)(0.35+ansy-smallcube[i,j].transform.position.y),Space.World);                
+                }
+                else
+                {
+                    smallcube[i,j].transform.Translate(Vector3.up * (float)(0.35 + dict[str].offset - smallcube[i,j].transform.position.y),Space.World); 
+                }
                 if (k==1){
                     upbutton[i,j]=PrefabUtility.InstantiatePrefab(DoorControllerOnTable) as GameObject;                
                     upbutton[i,j].transform.position=new UnityEngine.Vector3((i-24)*(float)0.015+2,(float)0.701,(float)5.5+(j-49)*(float)0.015);                    
@@ -77,9 +103,16 @@ public class WaveTable : MonoBehaviour
                     upbutton[i,j]=PrefabUtility.InstantiatePrefab(TestButtonOnTable) as GameObject;                
                     upbutton[i,j].transform.position=new UnityEngine.Vector3((i-24)*(float)0.015+2,(float)0.701,(float)5.5+(j-49)*(float)0.015);     
                     upbutton[i,j].transform.localScale=new UnityEngine.Vector3((float)0.015,(float)0.001,(float)0.015);
-                    upbutton[i,j].transform.GetComponent<LampStateController>().lightItem=GameObject.Find(str2);
+                    upbutton[i,j].transform.GetComponent<WaveLampStateController>().lightItem=GameObject.Find(str2);
+                    upbutton[i,j].transform.GetComponent<WaveLampStateController>().waveTable = gameObject;
+                    upbutton[i,j].transform.GetComponent<WaveLampStateController>().label = str;
+                    upbutton[i,j].transform.GetComponent<WaveLampStateController>().xL=ansxL;
+                    upbutton[i,j].transform.GetComponent<WaveLampStateController>().xR=ansxR;
+                    upbutton[i,j].transform.GetComponent<WaveLampStateController>().zL=anszL;
+                    upbutton[i,j].transform.GetComponent<WaveLampStateController>().zR=anszR;
                     upbutton[i,j].SetActive(true);             
-                    upbutton[i,j].transform.Translate(Vector3.up*(float)ansy,Space.World);                    
+                    //upbutton[i,j].transform.Translate(Vector3.up*(float)ansy,Space.World);        
+                    upbutton[i,j].transform.Translate(Vector3.up * dict[str].offset,Space.World);
                 }
             }
         if (k==1){
@@ -116,11 +149,19 @@ public class WaveTable : MonoBehaviour
             sidebutton[sidenum].transform.Translate(Vector3.up*(float)ansy,Space.World);  
         }
         if (k==2){
+            locHSVPicker.GetComponent<updateLightColor>().light = GameObject.Find(str2).GetComponent<Light>();
+            /*
             sidenum++;
             sidebutton[sidenum]=PrefabUtility.InstantiatePrefab(TestButtonOnTable) as GameObject;                
             sidebutton[sidenum].transform.position=new UnityEngine.Vector3((ansxL-24)*(float)0.015+2-0.01f,(float)0.655,(float)5.5+(((float)(anszL+anszR))/2-49)*(float)0.015);     
             sidebutton[sidenum].transform.localScale=new UnityEngine.Vector3((float)0.001,(float)0.09,(float)0.015*(anszR-anszL+1));
-            sidebutton[sidenum].transform.GetComponent<LampStateController>().lightItem=GameObject.Find(str2);
+            sidebutton[sidenum].transform.GetComponent<WaveLampStateController>().lightItem=GameObject.Find(str2);
+            sidebutton[sidenum].transform.GetComponent<WaveLampStateController>().waveTable = gameObject;
+            sidebutton[sidenum].transform.GetComponent<WaveLampStateController>().label = str;
+            sidebutton[sidenum].transform.GetComponent<WaveLampStateController>().xL=ansxL;
+            sidebutton[sidenum].transform.GetComponent<WaveLampStateController>().xR=ansxR;
+            sidebutton[sidenum].transform.GetComponent<WaveLampStateController>().zL=anszL;
+            sidebutton[sidenum].transform.GetComponent<WaveLampStateController>().zR=anszR;
             sidebutton[sidenum].SetActive(true);             
             sidebutton[sidenum].transform.Translate(Vector3.up*(float)ansy,Space.World);  
 
@@ -128,7 +169,13 @@ public class WaveTable : MonoBehaviour
             sidebutton[sidenum]=PrefabUtility.InstantiatePrefab(TestButtonOnTable) as GameObject;                
             sidebutton[sidenum].transform.position=new UnityEngine.Vector3((ansxR-24)*(float)0.015+2+0.01f,(float)0.655,(float)5.5+(((float)(anszL+anszR))/2-49)*(float)0.015);     
             sidebutton[sidenum].transform.localScale=new UnityEngine.Vector3((float)0.001,(float)0.09,(float)0.015*(anszR-anszL+1));
-            sidebutton[sidenum].transform.GetComponent<LampStateController>().lightItem=GameObject.Find(str2);
+            sidebutton[sidenum].transform.GetComponent<WaveLampStateController>().lightItem=GameObject.Find(str2);
+            sidebutton[sidenum].transform.GetComponent<WaveLampStateController>().waveTable = gameObject;
+            sidebutton[sidenum].transform.GetComponent<WaveLampStateController>().label = str;
+            sidebutton[sidenum].transform.GetComponent<WaveLampStateController>().xL=ansxL;
+            sidebutton[sidenum].transform.GetComponent<WaveLampStateController>().xR=ansxR;
+            sidebutton[sidenum].transform.GetComponent<WaveLampStateController>().zL=anszL;
+            sidebutton[sidenum].transform.GetComponent<WaveLampStateController>().zR=anszR;            
             sidebutton[sidenum].SetActive(true);             
             sidebutton[sidenum].transform.Translate(Vector3.up*(float)ansy,Space.World);  
             
@@ -136,7 +183,13 @@ public class WaveTable : MonoBehaviour
             sidebutton[sidenum]=PrefabUtility.InstantiatePrefab(TestButtonOnTable) as GameObject;                
             sidebutton[sidenum].transform.position=new UnityEngine.Vector3((((float)(ansxL+ansxR))/2-24)*(float)0.015+2,(float)0.655,(float)5.5+(anszL-49)*(float)0.015-0.01f);     
             sidebutton[sidenum].transform.localScale=new UnityEngine.Vector3((float)0.015*(ansxR-ansxL+1),(float)0.09,(float)0.001);
-            sidebutton[sidenum].transform.GetComponent<LampStateController>().lightItem=GameObject.Find(str2);
+            sidebutton[sidenum].transform.GetComponent<WaveLampStateController>().lightItem=GameObject.Find(str2);
+            sidebutton[sidenum].transform.GetComponent<WaveLampStateController>().waveTable = gameObject;
+            sidebutton[sidenum].transform.GetComponent<WaveLampStateController>().label = str;
+            sidebutton[sidenum].transform.GetComponent<WaveLampStateController>().xL=ansxL;
+            sidebutton[sidenum].transform.GetComponent<WaveLampStateController>().xR=ansxR;
+            sidebutton[sidenum].transform.GetComponent<WaveLampStateController>().zL=anszL;
+            sidebutton[sidenum].transform.GetComponent<WaveLampStateController>().zR=anszR;
             sidebutton[sidenum].SetActive(true);             
             sidebutton[sidenum].transform.Translate(Vector3.up*(float)ansy,Space.World);  
 
@@ -144,11 +197,51 @@ public class WaveTable : MonoBehaviour
             sidebutton[sidenum]=PrefabUtility.InstantiatePrefab(TestButtonOnTable) as GameObject;                
             sidebutton[sidenum].transform.position=new UnityEngine.Vector3((((float)(ansxL+ansxR))/2-24)*(float)0.015+2,(float)0.655,(float)5.5+(anszR-49)*(float)0.015+0.01f);     
             sidebutton[sidenum].transform.localScale=new UnityEngine.Vector3((float)0.015*(ansxR-ansxL+1),(float)0.09,(float)0.001);
-            sidebutton[sidenum].transform.GetComponent<LampStateController>().lightItem=GameObject.Find(str2);
+            sidebutton[sidenum].transform.GetComponent<WaveLampStateController>().lightItem=GameObject.Find(str2);
+            sidebutton[sidenum].transform.GetComponent<WaveLampStateController>().waveTable = gameObject;
+            sidebutton[sidenum].transform.GetComponent<WaveLampStateController>().label = str;
+            sidebutton[sidenum].transform.GetComponent<WaveLampStateController>().xL=ansxL;
+            sidebutton[sidenum].transform.GetComponent<WaveLampStateController>().xR=ansxR;
+            sidebutton[sidenum].transform.GetComponent<WaveLampStateController>().zL=anszL;
+            sidebutton[sidenum].transform.GetComponent<WaveLampStateController>().zR=anszR;
             sidebutton[sidenum].SetActive(true);             
-            sidebutton[sidenum].transform.Translate(Vector3.up*(float)ansy,Space.World);  
+            sidebutton[sidenum].transform.Translate(Vector3.up*(float)ansy,Space.World);  */
+        }
+        if(k == 2)
+        {
+            Debug.Log("light pos : xL : " + ansxL + " xR : " + ansxR + " ");
+            Debug.Log("light pos : zL : " + anszL + " zR : " + anszR + " ");
+
         }
     }    
+
+    public void UpdateLight(int xL, int xR, int zL, int zR, GameObject lightItem, string label)
+    {
+        locHSVPicker.GetComponent<updateLightColor>().light = lightItem.GetComponent<Light>();
+        locHSVPicker.transform.localPosition += new Vector3((xL - hsvxL) * 0.015f, 0f, (zL - hsvzL) * 0.015f);
+        locHSVPicker.transform.Translate(Vector3.up * (dict[label].offset - currOffset), Space.World);
+        hsvxL = xL; hsvxR = xR; hsvzL = zL; hsvzR = zR;
+        currLabel = label; currOffset = dict[label].offset;
+        for (int i=xL;i<=xR;i++)
+            for (int j=zL;j<=zR;j++){                                
+                    //smallcube[i,j].transform.Translate(Vector3.up * (float)(0.35 + dict[label].offset + 0.303 - smallcube[i,j].transform.position.y),Space.World); 
+            }
+    }
+
+    public void SelectHSVTop()
+    {
+        Debug.Log("key : " + currLabel);
+        for (int i=hsvxL;i<=hsvxR;i++)
+            for (int j=hsvzL;j<=hsvzR;j++){                                
+                    //smallcube[i,j].transform.Translate(Vector3.up * (float)(0.35 + dict[currLabel].offset - smallcube[i,j].transform.position.y),Space.World); 
+            }        
+    }
+
+    public void SelectHSVSide()
+    {
+        locHSVPicker.GetComponent<updateLightColor>().light.enabled = !locHSVPicker.GetComponent<updateLightColor>().light.enabled;
+    }
+
     void Start()
     {                     
         init();                       
@@ -172,10 +265,20 @@ public class WaveTable : MonoBehaviour
         make("chair_3 (1)/base");        
         make("Door1/DoorItem/03_low",1,"Door1/DoorItem/01_low");
         make("Door1 (1)/DoorItem/03_low",1,"Door1 (1)/DoorItem/01_low");
-        make("Lamp1/torchere_1/plafond",2,"Lamp1/LightItem");        
+        LightStatus lamp; lamp.on = true; lamp.offset = 0f;
+        dict["Lamp1/torchere_1/plafond"] = lamp;
+        make("Lamp1/torchere_1/plafond",2,"Lamp1/LightItem");
+        LightStatus b_lamp1; b_lamp1.on = true; b_lamp1.offset = 0.1f;
+        dict["Bedside Lamp 1"] = b_lamp1;
         make("Bedside Lamp 1",2,"Bedside Lamp 1",1);
+        LightStatus b_lamp2; b_lamp2.on = true; b_lamp2.offset = 0.1f;
+        dict["Bedside Lamp 2"] = b_lamp2;
         make("Bedside Lamp 2",2,"Bedside Lamp 2",1);        
+        LightStatus c_light; c_light.on = true; c_light.offset = 0f;
+        dict["Corridor Light"] = c_light;
         make("Corridor Light",2,"Corridor Light",1);
+        LightStatus t_light; t_light.on = true; t_light.offset = 0f;
+        dict["Toilet Light"] = t_light;
         make("Toilet Light",2,"Toilet Light",1);        
     }
     void Update()

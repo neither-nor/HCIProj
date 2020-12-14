@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 3508938420918868922}
   - component: {fileID: 3879020144737570948}
   - component: {fileID: 3485408336834524238}
+  - component: {fileID: 7316525683063810210}
   m_Layer: 0
   m_Name: TestButtonOnTable
   m_TagString: Untagged
@@ -40,7 +41,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1531640008835206228}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 611029b2b1338d14caa0501c9bcb83ee, type: 3}
   m_Name: 
@@ -55,7 +56,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1531640008835206228}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 48eb745e707bf2445b6c69ecf84165f3, type: 3}
   m_Name: 
@@ -64,6 +65,26 @@ MonoBehaviour:
   textObj: {fileID: 0}
   label: 
   lightColorPicker: {fileID: 0}
+--- !u!114 &7316525683063810210
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1531640008835206228}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 27c1e43f603a4744b841ab0a890c9882, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lightItem: {fileID: 0}
+  textObj: {fileID: 0}
+  label: 
+  waveTable: {fileID: 0}
+  xL: 0
+  xR: 0
+  zL: 0
+  zR: 0
 --- !u!1 &5827727490218295192
 GameObject:
   m_ObjectHideFlags: 0
@@ -255,7 +276,7 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.05, y: 0.05, z: 0.024882812}
+  m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &5869143033760499384
 MonoBehaviour:
@@ -289,8 +310,8 @@ MonoBehaviour:
   OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 3485408336834524238}
-        m_TargetAssemblyTypeName: LampStateController, Assembly-CSharp
+      - m_Target: {fileID: 7316525683063810210}
+        m_TargetAssemblyTypeName: WaveLampStateController, Assembly-CSharp
         m_MethodName: OnButtonClick
         m_Mode: 1
         m_Arguments:
