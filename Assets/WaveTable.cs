@@ -31,6 +31,7 @@ public class WaveTable : MonoBehaviour
         public float offset;
     }
     Dictionary<string, LightStatus> dict = new Dictionary<string, LightStatus>();
+    float yaxisLen = 0.345f;
 
     void init() {
         double roomx,roomy,roomz;
@@ -64,7 +65,7 @@ public class WaveTable : MonoBehaviour
 
         locHSVPicker = GameObject.Instantiate(HSVPicker);
         locHSVPicker.transform.localScale = new Vector3(0.0031465f, 0.00357465f, 0.00157465f);
-        locHSVPicker.transform.localPosition = new Vector3(1.878f + 0.025f - 0.011f, 0.88f - 0.035f, 5.107f);
+        locHSVPicker.transform.localPosition = new Vector3(1.878f + 0.025f - 0.011f, 0.88f - 0.035f - yaxisLen, 5.107f);
         locHSVPicker.GetComponent<HSVTopSelecter>().waveTable = gameObject;
         currLabel = "";
     }
@@ -215,26 +216,59 @@ public class WaveTable : MonoBehaviour
         }
     }    
 
-    public void UpdateLight(int xL, int xR, int zL, int zR, GameObject lightItem, string label)
+    int steps = 30;
+    float stepTime = 0.002f;
+    IEnumerator CoUpdateLight(int xL, int xR, int zL, int zR, GameObject lightItem, string label)
     {
+        if(currLabel != "")
+        {
+            for(int i = 0; i < steps; i++)
+            {
+                locHSVPicker.transform.Translate( -Vector3.up * yaxisLen / steps, Space.World);
+                yield return new WaitForSeconds(stepTime);
+            }
+        }
         locHSVPicker.GetComponent<updateLightColor>().light = lightItem.GetComponent<Light>();
         locHSVPicker.transform.localPosition += new Vector3((xL - hsvxL) * 0.015f, 0f, (zL - hsvzL) * 0.015f);
         locHSVPicker.transform.Translate(Vector3.up * (dict[label].offset - currOffset), Space.World);
         hsvxL = xL; hsvxR = xR; hsvzL = zL; hsvzR = zR;
         currLabel = label; currOffset = dict[label].offset;
+
+        for(int i = 0; i < steps; i++)
+        {
+            locHSVPicker.transform.Translate(Vector3.up * yaxisLen / steps, Space.World);
+            yield return new WaitForSeconds(stepTime);
+        }
+        
         for (int i=xL;i<=xR;i++)
             for (int j=zL;j<=zR;j++){                                
                     //smallcube[i,j].transform.Translate(Vector3.up * (float)(0.35 + dict[label].offset + 0.303 - smallcube[i,j].transform.position.y),Space.World); 
             }
+        yield return 0;
+    }
+
+    public void UpdateLight(int xL, int xR, int zL, int zR, GameObject lightItem, string label)
+    {
+        StartCoroutine(CoUpdateLight(xL, xR, zL, zR, lightItem, label));
+    }
+
+    IEnumerator CoSelectHSVTop()
+    {
+        currLabel = "";
+        for(int i = 0; i < steps; i++)
+        {
+            locHSVPicker.transform.Translate( -Vector3.up * yaxisLen / steps, Space.World);
+            yield return new WaitForSeconds(stepTime);
+        }
+        for (int i=hsvxL;i<=hsvxR;i++)
+            for (int j=hsvzL;j<=hsvzR;j++){                                
+                    //smallcube[i,j].transform.Translate(Vector3.up * (float)(0.35 + dict[currLabel].offset - smallcube[i,j].transform.position.y),Space.World); 
+            }  
     }
 
     public void SelectHSVTop()
     {
-        Debug.Log("key : " + currLabel);
-        for (int i=hsvxL;i<=hsvxR;i++)
-            for (int j=hsvzL;j<=hsvzR;j++){                                
-                    //smallcube[i,j].transform.Translate(Vector3.up * (float)(0.35 + dict[currLabel].offset - smallcube[i,j].transform.position.y),Space.World); 
-            }        
+        StartCoroutine(CoSelectHSVTop());
     }
 
     public void SelectHSVSide()
