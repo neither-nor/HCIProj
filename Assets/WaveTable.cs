@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEditor;
 
 public class WaveTable : MonoBehaviour
 {
@@ -93,7 +92,7 @@ public class WaveTable : MonoBehaviour
                     smallcube[i,j].transform.Translate(Vector3.up * (float)(0.35 + dict[str].offset - smallcube[i,j].transform.position.y),Space.World); 
                 }
                 if (k==1){
-                    upbutton[i,j]=PrefabUtility.InstantiatePrefab(DoorControllerOnTable) as GameObject;                
+                    upbutton[i,j]= Instantiate(DoorControllerOnTable) as GameObject;                
                     upbutton[i,j].transform.position=new UnityEngine.Vector3((i-24)*(float)0.015+2,(float)0.701,(float)5.5+(j-49)*(float)0.015);                    
                     upbutton[i,j].transform.localScale=new UnityEngine.Vector3((float)0.015,(float)0.001,(float)0.015);
                     upbutton[i,j].transform.GetComponent<DoorController>().door=GameObject.Find(str2);
@@ -101,7 +100,7 @@ public class WaveTable : MonoBehaviour
                     upbutton[i,j].transform.Translate(Vector3.up*(float)ansy,Space.World);                
                 }            
                 if (k==2){
-                    upbutton[i,j]=PrefabUtility.InstantiatePrefab(TestButtonOnTable) as GameObject;                
+                    upbutton[i,j]= Instantiate(TestButtonOnTable) as GameObject;                
                     upbutton[i,j].transform.position=new UnityEngine.Vector3((i-24)*(float)0.015+2,(float)0.701,(float)5.5+(j-49)*(float)0.015);     
                     upbutton[i,j].transform.localScale=new UnityEngine.Vector3((float)0.015,(float)0.001,(float)0.015);
                     upbutton[i,j].transform.GetComponent<WaveLampStateController>().lightItem=GameObject.Find(str2);
@@ -118,7 +117,7 @@ public class WaveTable : MonoBehaviour
             }
         if (k==1){
             sidenum++;
-            sidebutton[sidenum]=PrefabUtility.InstantiatePrefab(DoorControllerOnTable) as GameObject;                
+            sidebutton[sidenum]= Instantiate(DoorControllerOnTable) as GameObject;                
             sidebutton[sidenum].transform.position=new UnityEngine.Vector3((ansxL-24)*(float)0.015+2-0.01f,(float)0.35,(float)5.5+(((float)(anszL+anszR))/2-49)*(float)0.015);     
             sidebutton[sidenum].transform.localScale=new UnityEngine.Vector3((float)0.001,(float)0.7,(float)0.015*(anszR-anszL+1));
             sidebutton[sidenum].transform.GetComponent<DoorController>().door=GameObject.Find(str2);
@@ -126,7 +125,7 @@ public class WaveTable : MonoBehaviour
             sidebutton[sidenum].transform.Translate(Vector3.up*(float)ansy,Space.World);  
 
             sidenum++;
-            sidebutton[sidenum]=PrefabUtility.InstantiatePrefab(DoorControllerOnTable) as GameObject;                
+            sidebutton[sidenum]= Instantiate(DoorControllerOnTable) as GameObject;                
             sidebutton[sidenum].transform.position=new UnityEngine.Vector3((ansxR-24)*(float)0.015+2+0.01f,(float)0.35,(float)5.5+(((float)(anszL+anszR))/2-49)*(float)0.015);     
             sidebutton[sidenum].transform.localScale=new UnityEngine.Vector3((float)0.001,(float)0.7,(float)0.015*(anszR-anszL+1));
             sidebutton[sidenum].transform.GetComponent<DoorController>().door=GameObject.Find(str2);
@@ -134,7 +133,7 @@ public class WaveTable : MonoBehaviour
             sidebutton[sidenum].transform.Translate(Vector3.up*(float)ansy,Space.World);  
             
             sidenum++;
-            sidebutton[sidenum]=PrefabUtility.InstantiatePrefab(DoorControllerOnTable) as GameObject;                
+            sidebutton[sidenum]= Instantiate(DoorControllerOnTable) as GameObject;                
             sidebutton[sidenum].transform.position=new UnityEngine.Vector3((((float)(ansxL+ansxR))/2-24)*(float)0.015+2,(float)0.35,(float)5.5+(anszL-49)*(float)0.015-0.01f);     
             sidebutton[sidenum].transform.localScale=new UnityEngine.Vector3((float)0.015*(ansxR-ansxL+1),(float)0.7,(float)0.001);
             sidebutton[sidenum].transform.GetComponent<DoorController>().door=GameObject.Find(str2);
@@ -142,7 +141,7 @@ public class WaveTable : MonoBehaviour
             sidebutton[sidenum].transform.Translate(Vector3.up*(float)ansy,Space.World);  
 
             sidenum++;
-            sidebutton[sidenum]=PrefabUtility.InstantiatePrefab(DoorControllerOnTable) as GameObject;                
+            sidebutton[sidenum]=Instantiate(DoorControllerOnTable) as GameObject;                
             sidebutton[sidenum].transform.position=new UnityEngine.Vector3((((float)(ansxL+ansxR))/2-24)*(float)0.015+2,(float)0.35,(float)5.5+(anszR-49)*(float)0.015+0.01f);     
             sidebutton[sidenum].transform.localScale=new UnityEngine.Vector3((float)0.015*(ansxR-ansxL+1),(float)0.7,(float)0.001);
             sidebutton[sidenum].transform.GetComponent<DoorController>().door=GameObject.Find(str2);
